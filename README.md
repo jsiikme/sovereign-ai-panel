@@ -6,7 +6,11 @@ Fonctionnalités : **Résumer**, **Extraire les points clés**, **Rechercher un 
 
 ![Le panneau Euria ouvert sur une page web](docs/screenshot-panel.png)
 
-![Un résumé de page généré en streaming](docs/screenshot-summary.png)
+| Résumé | Points clés |
+|:---:|:---:|
+| ![Un résumé de page généré en streaming](docs/screenshot-summary.png) | ![Extraction des points clés](docs/screenshot-keypoints.png) |
+| **Traduction** | |
+| ![Traduction de la page en anglais](docs/screenshot-translate.png) | |
 
 > Captures d'illustration ; la page servant de décor et le nom « Euria » appartiennent à Infomaniak.
 
