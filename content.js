@@ -151,13 +151,17 @@
   function onUrlChange() {
     const newUrl = contextKey();
     if (currentUrl === newUrl) return;
-    if (conversation.length) saveToCache(currentUrl, conversation);
+    const oldUrl = currentUrl;
+    const oldConv = conversation.length ? conversation.slice() : null;
     currentUrl = newUrl;
     pageContext = null;
-    if (!host) return;
-    const entry = loadFromCache(currentUrl);
-    if (entry) restoreConversation(entry.conversation);
-    else resetConversation();
+    cacheReady.then(() => {
+      if (oldConv) saveToCache(oldUrl, oldConv);
+      if (!host) return;
+      const entry = loadFromCache(currentUrl);
+      if (entry) restoreConversation(entry.conversation);
+      else resetConversation();
+    });
   }
 
   /* ---------- Extraction du contenu de la page ----------
