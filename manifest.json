@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Euria Everywhere (Unofficial)",
+  "version": "1.2.0",
+  "description": "Extension non officielle : résumer, extraire les points clés, rechercher un terme et traduire n'importe quelle page web via l'API AI d'Infomaniak. Non affiliée à Infomaniak.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "euria-everywhere@jsiikme",
+      "strict_min_version": "127.0"
+    }
+  },
+  "icons": {
+    "48": "icons/euria.svg",
+    "96": "icons/euria.svg"
+  },
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://api.infomaniak.com/*"
+  ],
+  "background": {
+    "scripts": ["defaults.js", "background.js"]
+  },
+  "action": {
+    "default_title": "Euria Everywhere (Unofficial)",
+    "default_icon": "icons/euria.svg"
+  },
+  "commands": {
+    "toggle-panel": {
+      "suggested_key": { "default": "Alt+Shift+E" },
+      "description": "Ouvrir/fermer le panneau Euria"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  }
+}
