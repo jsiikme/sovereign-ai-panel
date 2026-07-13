@@ -9,8 +9,8 @@ Fonctionnalités : **Résumer**, **Extraire les points clés**, **Rechercher un 
 | Résumé | Points clés |
 |:---:|:---:|
 | ![Un résumé de page généré en streaming](docs/screenshot-summary.png) | ![Extraction des points clés](docs/screenshot-keypoints.png) |
-| **Traduction** | |
-| ![Traduction de la page en anglais](docs/screenshot-translate.png) | |
+| **Traduction** | **Rechercher un terme** |
+| ![Traduction de la page en anglais](docs/screenshot-translate.png) | ![Explication d'un terme en contexte](docs/screenshot-term.png) |
 
 > Captures d'illustration ; la page servant de décor et le nom « Euria » appartiennent à Infomaniak.
 
