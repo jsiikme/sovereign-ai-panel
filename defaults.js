@@ -12,6 +12,9 @@ if (typeof browser === "undefined") {
   globalThis.browser = chrome;
 }
 
+/* YOUR_PRODUCT_ID est un placeholder : chaque utilisateur remplace ce segment
+ * par l'identifiant de SON produit AI Services (Manager Infomaniak), dans les
+ * préférences. Aucune ID de compte réelle n'est embarquée dans le code. */
 var EURIA_DEFAULTS = {
   apiUrl: "https://api.infomaniak.com/2/ai/YOUR_PRODUCT_ID/openai/v1/chat/completions",
   apiToken: "",
@@ -19,6 +22,8 @@ var EURIA_DEFAULTS = {
   maxPageChars: 24000,
   lastLang: "fr"
 };
+
+var EURIA_URL_PLACEHOLDER = "YOUR_PRODUCT_ID";
 
 /* Seul domaine autorisé pour l'API : le jeton ne doit jamais partir ailleurs. */
 var EURIA_API_ORIGIN = "https://api.infomaniak.com/";
@@ -97,7 +102,9 @@ var EURIA_STRINGS = {
     optMaxChars: "Taille max. du contenu de page envoyé (caractères)",
     optSave: "Enregistrer",
     optSaved: "Enregistré ✓",
-    optUrlRejected: "URL refusée : elle doit commencer par %s"
+    optUrlRejected: "URL refusée : elle doit commencer par %s",
+    optUrlHint: "Remplacez YOUR_PRODUCT_ID par l'identifiant de votre produit AI Services (Manager Infomaniak).",
+    errPlaceholder: "Configurez votre URL d'API : remplacez YOUR_PRODUCT_ID par l'ID de votre produit AI Services dans les préférences."
   },
   en: {
     menuRoot: "Euria",
@@ -154,7 +161,9 @@ var EURIA_STRINGS = {
     optMaxChars: "Max size of page content sent (characters)",
     optSave: "Save",
     optSaved: "Saved ✓",
-    optUrlRejected: "URL rejected: it must start with %s"
+    optUrlRejected: "URL rejected: it must start with %s",
+    optUrlHint: "Replace YOUR_PRODUCT_ID with your AI Services product ID (Infomaniak Manager).",
+    errPlaceholder: "Configure your API URL: replace YOUR_PRODUCT_ID with your AI Services product ID in the preferences."
   }
 };
 

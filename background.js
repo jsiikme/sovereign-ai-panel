@@ -107,6 +107,10 @@ async function checkPrerequisites(settings) {
   if (!settings.apiUrl.startsWith(EURIA_API_ORIGIN)) {
     return EURIA_T("errBadUrl").replace("%s", EURIA_API_ORIGIN);
   }
+  if (settings.apiUrl.includes(EURIA_URL_PLACEHOLDER)) {
+    browser.runtime.openOptionsPage();
+    return EURIA_T("errPlaceholder");
+  }
   const granted = await browser.permissions.contains({ origins: [EURIA_API_ORIGIN + "*"] });
   if (!granted) {
     return EURIA_T("errNoPermission");

@@ -12,7 +12,7 @@ function localize() {
   document.title = EURIA_T("optTitle");
   const map = {
     "t-title": "optTitle", "t-apiUrl": "optApiUrl", "t-apiToken": "optApiToken",
-    "t-hint": "optHint", "t-model": "optModel", "t-maxPageChars": "optMaxChars", "save": "optSave"
+    "t-hint": "optHint", "t-urlHint": "optUrlHint", "t-model": "optModel", "t-maxPageChars": "optMaxChars", "save": "optSave"
   };
   for (const [id, key] of Object.entries(map)) {
     const el = document.getElementById(id);
@@ -48,6 +48,10 @@ async function save() {
 
   if (!values.apiUrl.startsWith(EURIA_API_ORIGIN)) {
     setStatus(EURIA_T("optUrlRejected").replace("%s", EURIA_API_ORIGIN), true);
+    return;
+  }
+  if (values.apiUrl.includes(EURIA_URL_PLACEHOLDER)) {
+    setStatus(EURIA_T("errPlaceholder"), true);
     return;
   }
 
