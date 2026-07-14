@@ -11,7 +11,15 @@ if (typeof importScripts === "function") {
 
 async function getSettings() {
   // Les défauts ne sont pas persistés : ils comblent les clés absentes en lecture.
-  return browser.storage.local.get(EURIA_DEFAULTS);
+  const s = await browser.storage.local.get(EURIA_DEFAULTS);
+  EURIA_SET_UI_LANG(s.uiLang); // messages/erreurs dans la langue choisie
+  return s;
+}
+
+// Charge la langue choisie (pour les menus, créés hors d'un appel getSettings).
+async function refreshLang() {
+  const { uiLang } = await browser.storage.local.get({ uiLang: "auto" });
+  EURIA_SET_UI_LANG(uiLang);
 }
 
 /* ---------- Injection à la demande du script de contenu ----------
@@ -63,6 +71,7 @@ async function createMenus() {
 }
 
 browser.runtime.onInstalled.addListener(async () => {
+  await refreshLang();
   createMenus();
   // Migration : ancien réglage apiUrl -> productId (extrait le numéro du chemin).
   const { apiUrl, productId, apiToken } = await browser.storage.local.get({ apiUrl: "", productId: "", apiToken: "" });
@@ -74,7 +83,12 @@ browser.runtime.onInstalled.addListener(async () => {
   if (!apiToken) browser.runtime.openOptionsPage();
 });
 
-browser.runtime.onStartup.addListener(createMenus);
+browser.runtime.onStartup.addListener(async () => { await refreshLang(); createMenus(); });
+
+// Changement de langue dans les préférences : recrée les menus contextuels.
+browser.storage.onChanged.addListener(async (changes, area) => {
+  if (area === "local" && changes.uiLang) { await refreshLang(); createMenus(); }
+});
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
   const menu = MENUS.find((m) => m.id === info.menuItemId);

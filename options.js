@@ -11,7 +11,8 @@ function localize() {
   document.documentElement.lang = EURIA_LANG();
   document.title = EURIA_T("optTitle");
   const map = {
-    "t-title": "optTitle", "t-productId": "optProductId", "t-apiToken": "optApiToken",
+    "t-title": "optTitle", "t-language": "optLanguage", "t-langAuto": "optLangAuto",
+    "t-productId": "optProductId", "t-apiToken": "optApiToken",
     "t-hint": "optHint", "t-productHint": "optProductHint", "t-model": "optModel", "t-maxPageChars": "optMaxChars", "save": "optSave"
   };
   for (const [id, key] of Object.entries(map)) {
@@ -32,6 +33,9 @@ async function load() {
   for (const key of FIELDS) {
     document.getElementById(key).value = values[key];
   }
+  document.getElementById("uiLang").value = values.uiLang || "auto";
+  EURIA_SET_UI_LANG(values.uiLang);   // applique la langue choisie…
+  localize();                          // …et (re)localise la page d'options
 }
 
 async function save() {
@@ -52,11 +56,13 @@ async function save() {
     return;
   }
 
+  const sel = document.getElementById("uiLang").value;
+  values.uiLang = (sel === "fr" || sel === "en") ? sel : "auto";
+
   await browser.storage.local.set(values);
-  await load(); // réaffiche les valeurs normalisées
+  await load(); // réaffiche + re-localise dans la nouvelle langue
   setStatus(EURIA_T("optSaved"), false);
 }
 
 document.getElementById("save").addEventListener("click", save);
-localize();
-load();
+load(); // load() applique la langue puis localise

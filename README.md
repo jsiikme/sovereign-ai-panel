@@ -5,13 +5,13 @@ Cette extension reproduit son expérience sur n'importe quelle page web via votr
 
 Fonctionnalités : **Résumer**, **Extraire les points clés**, **Rechercher un terme**, **Traduire**, questions libres avec suivi de conversation — réponses en streaming. Compatible **Firefox** (≥ 127) et **Brave / Chromium** (≥ 116).
 
-![Le panneau Sovereign AI ouvert sur une page web](docs/screenshot-panel.png?v=3)
+![Le panneau Sovereign AI ouvert sur une page web](docs/screenshot-panel.png?v=4)
 
 | Résumé | Points clés |
 |:---:|:---:|
-| ![Un résumé de page généré en streaming](docs/screenshot-summary.png?v=3) | ![Extraction des points clés](docs/screenshot-keypoints.png?v=3) |
+| ![Un résumé de page généré en streaming](docs/screenshot-summary.png?v=4) | ![Extraction des points clés](docs/screenshot-keypoints.png?v=4) |
 | **Traduction** | **Rechercher un terme** |
-| ![Traduction de la page en anglais](docs/screenshot-translate.png?v=3) | ![Explication d'un terme en contexte](docs/screenshot-term.png?v=3) |
+| ![Traduction de la page en anglais](docs/screenshot-translate.png?v=4) | ![Explication d'un terme en contexte](docs/screenshot-term.png?v=4) |
 
 > Captures d'illustration ; la page servant de décor et le nom « Euria » appartiennent à Infomaniak.
 
@@ -54,6 +54,7 @@ Chargez ensuite `dist/firefox` ou `dist/brave` comme ci-dessus. (À défaut, `di
 
 Préférences (`about:addons` / `brave://extensions` → Sovereign AI Panel → Préférences) :
 
+- **Langue de l'interface** : Automatique (langue du navigateur), Français ou English
 - **Identifiant du produit AI Services** : le numéro de votre produit (Manager Infomaniak, ex. `12345`) ; l'URL de l'API est construite automatiquement à partir de ce numéro
 - **Jeton API** : jeton Bearer Infomaniak AI Tools
 - **Modèle** : ex. `Qwen/Qwen3.5-122B-A10B-FP8`
@@ -78,7 +79,7 @@ Aucune donnée n'est envoyée au développeur ni à un tiers : vos requêtes von
 - **Économie de contexte** : contenu de page limité (réglable) et historique tronqué aux 8 derniers messages à chaque appel.
 - **Streaming robuste** : rendu limité à un re-rendu par frame (`requestAnimationFrame`), deltas de raisonnement relayés par paquets, retry automatique avec backoff sur HTTP 429/5xx + bouton « Réessayer ».
 - **Panneau en Shadow DOM** (mode `closed`) : styles isolés du site visité, `z-index` maximal.
-- **Bilingue automatique** : l'interface, les menus, les prompts modèle et la page de préférences basculent en anglais si la langue du navigateur n'est pas le français (français sinon). Aucun réglage à faire.
+- **Bilingue** : français ou anglais, sélectionnable dans les préférences (**Langue de l'interface**). Par défaut « Automatique » : suit la langue du navigateur (français pour les locales `fr*`, anglais sinon).
 - **Conversation par page** : changer de page réinitialise la conversation ; y revenir dans les 30 min la restaure (détection SPA via `pushState`/`replaceState` + `popstate` + repli par polling). Contribution de [@reneluria](https://github.com/reneluria).
 
 ## Structure

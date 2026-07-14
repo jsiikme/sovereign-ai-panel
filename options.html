@@ -10,9 +10,10 @@
     }
     h1 { font-size: 17px; margin: 0 0 14px; }
     label { display: block; font-weight: 600; margin: 12px 0 4px; }
-    input {
+    input, select {
       width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1;
       border-radius: 8px; font-size: 13px; font-family: inherit; box-sizing: border-box;
+      background: #fff;
     }
     .hint { color: #64748b; font-size: 12px; margin-top: 3px; }
     button {
@@ -26,6 +27,13 @@
 </head>
 <body>
   <h1 id="t-title">Sovereign AI Panel</h1>
+
+  <label for="uiLang" id="t-language">Interface language</label>
+  <select id="uiLang">
+    <option value="auto" id="t-langAuto">Automatic (browser language)</option>
+    <option value="fr">Français</option>
+    <option value="en">English</option>
+  </select>
 
   <label for="productId" id="t-productId">AI Services product ID</label>
   <input id="productId" type="text" inputmode="numeric" spellcheck="false" placeholder="12345">

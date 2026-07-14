@@ -20,7 +20,8 @@ var EURIA_DEFAULTS = {
   apiToken: "",
   model: "Qwen/Qwen3.5-122B-A10B-FP8",
   maxPageChars: 24000,
-  lastLang: "fr"
+  lastLang: "fr",
+  uiLang: "auto"   // "auto" (langue du navigateur), "fr" ou "en"
 };
 
 /* Seul domaine autorisé (le jeton ne peut partir qu'ici) + construction de
@@ -30,10 +31,17 @@ function EURIA_API_URL(productId) {
   return "https://api.infomaniak.com/2/ai/" + encodeURIComponent(productId) + "/openai/v1/chat/completions";
 }
 
-/* ---------- i18n : bascule automatique sur la langue du navigateur ----------
- * Français si la locale de l'interface commence par « fr », anglais sinon.
- * Partagé par background.js, content.js et options.js. */
+/* ---------- i18n ----------
+ * Langue = préférence utilisateur (uiLang) si "fr"/"en", sinon bascule
+ * automatique sur la langue du navigateur. Partagé par les 3 contextes.
+ * EURIA_UI_LANG est un cache synchrone alimenté depuis storage au démarrage
+ * (voir EURIA_SET_UI_LANG) — EURIA_LANG() doit rester synchrone. */
+var EURIA_UI_LANG = "";  // "" = auto ; "fr" / "en" = forcé
+function EURIA_SET_UI_LANG(v) {
+  EURIA_UI_LANG = (v === "fr" || v === "en") ? v : "";
+}
 function EURIA_LANG() {
+  if (EURIA_UI_LANG === "fr" || EURIA_UI_LANG === "en") return EURIA_UI_LANG;
   var l = "en";
   try {
     l = (browser.i18n && browser.i18n.getUILanguage && browser.i18n.getUILanguage())
@@ -80,6 +88,7 @@ var EURIA_STRINGS = {
     busy: "Une réponse est déjà en cours…",
     aExpand: "Agrandir",
     aReset: "Nouvelle conversation",
+    aResetShort: "Nouveau",
     aClose: "Fermer",
     aInput: "Votre question",
     aSend: "Envoyer",
@@ -107,7 +116,9 @@ var EURIA_STRINGS = {
     optSave: "Enregistrer",
     optSaved: "Enregistré ✓",
     optProductHint: "Le numéro de votre produit AI Services, visible dans le Manager Infomaniak (ex. 12345).",
-    optProductInvalid: "Identifiant invalide : uniquement des chiffres (ex. 12345)."
+    optProductInvalid: "Identifiant invalide : uniquement des chiffres (ex. 12345).",
+    optLanguage: "Langue de l'interface",
+    optLangAuto: "Automatique (langue du navigateur)"
   },
   en: {
     menuRoot: "Sovereign AI",
@@ -143,6 +154,7 @@ var EURIA_STRINGS = {
     busy: "A response is already in progress…",
     aExpand: "Expand",
     aReset: "New conversation",
+    aResetShort: "New",
     aClose: "Close",
     aInput: "Your question",
     aSend: "Send",
@@ -167,7 +179,9 @@ var EURIA_STRINGS = {
     optSave: "Save",
     optSaved: "Saved ✓",
     optProductHint: "Your AI Services product number, shown in the Infomaniak Manager (e.g. 12345).",
-    optProductInvalid: "Invalid ID: digits only (e.g. 12345)."
+    optProductInvalid: "Invalid ID: digits only (e.g. 12345).",
+    optLanguage: "Interface language",
+    optLangAuto: "Automatic (browser language)"
   }
 };
 
