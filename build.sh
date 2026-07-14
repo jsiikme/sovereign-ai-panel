@@ -13,10 +13,10 @@ cp $SHARED dist/firefox/
 cp $SHARED dist/brave/
 
 cp manifest.json dist/firefox/manifest.json
-cp icons/euria.svg dist/firefox/icons/
+cp icons/icon.svg dist/firefox/icons/
 
 cp manifest.chromium.json dist/brave/manifest.json
-cp icons/euria-48.png icons/euria-128.png dist/brave/icons/
+cp icons/icon-48.png icons/icon-128.png dist/brave/icons/
 
 echo "OK :"
 echo "  dist/firefox — about:debugging → Charger un module temporaire → manifest.json"

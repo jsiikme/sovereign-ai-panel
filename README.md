@@ -5,13 +5,13 @@ Cette extension reproduit son expérience sur n'importe quelle page web via votr
 
 Fonctionnalités : **Résumer**, **Extraire les points clés**, **Rechercher un terme**, **Traduire**, questions libres avec suivi de conversation — réponses en streaming. Compatible **Firefox** (≥ 127) et **Brave / Chromium** (≥ 116).
 
-![Le panneau Sovereign AI ouvert sur une page web](docs/screenshot-panel.png)
+![Le panneau Sovereign AI ouvert sur une page web](docs/screenshot-panel.png?v=3)
 
 | Résumé | Points clés |
 |:---:|:---:|
-| ![Un résumé de page généré en streaming](docs/screenshot-summary.png) | ![Extraction des points clés](docs/screenshot-keypoints.png) |
+| ![Un résumé de page généré en streaming](docs/screenshot-summary.png?v=3) | ![Extraction des points clés](docs/screenshot-keypoints.png?v=3) |
 | **Traduction** | **Rechercher un terme** |
-| ![Traduction de la page en anglais](docs/screenshot-translate.png) | ![Explication d'un terme en contexte](docs/screenshot-term.png) |
+| ![Traduction de la page en anglais](docs/screenshot-translate.png?v=3) | ![Explication d'un terme en contexte](docs/screenshot-term.png?v=3) |
 
 > Captures d'illustration ; la page servant de décor et le nom « Euria » appartiennent à Infomaniak.
 

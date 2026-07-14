@@ -1,12 +1,12 @@
 {
   "manifest_version": 3,
   "name": "Sovereign AI Panel",
-  "version": "1.9.0",
+  "version": "1.13.1",
   "description": "Summarize, extract key points, look up a term and translate any web page via Infomaniak's AI API — data stays in Europe. Not affiliated with Infomaniak.",
   "minimum_chrome_version": "116",
   "icons": {
-    "48": "icons/euria-48.png",
-    "128": "icons/euria-128.png"
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
   },
   "permissions": [
     "storage",
@@ -23,8 +23,8 @@
   "action": {
     "default_title": "Sovereign AI Panel",
     "default_icon": {
-      "48": "icons/euria-48.png",
-      "128": "icons/euria-128.png"
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
     }
   },
   "commands": {

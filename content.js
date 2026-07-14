@@ -395,13 +395,9 @@
     }
     .logo {
       width: 26px; height: 26px; border-radius: 50%; flex: none;
-      background: radial-gradient(circle at 32% 28%, #7aa7ff 0%, #2f6bff 45%, #1230b8 100%);
+      background: linear-gradient(135deg, #4f8bff, #0f9d8e);
     }
-    .title { font-size: 19px; font-weight: 600; }
-    .badge {
-      flex: 1; font-size: 10px; color: var(--faint); text-transform: uppercase;
-      letter-spacing: .5px; padding-top: 5px;
-    }
+    .title { font-size: 19px; font-weight: 600; flex: 1; }
     .hbtn {
       background: none; border: none; cursor: pointer; padding: 6px;
       border-radius: 8px; color: var(--muted); font-size: 15px; line-height: 1;
@@ -477,7 +473,10 @@
     }
     .send:hover { background: var(--send-hover); }
     .send.stop { background: #b42318; }
-    .disclaimer { text-align: center; color: var(--muted); font-size: 12px; padding: 6px 0 12px; }
+    .disclaimer { text-align: center; color: var(--muted); font-size: 12px; padding: 6px 0 4px; }
+    .powered { text-align: center; color: var(--muted); font-size: 13px; font-weight: 500; padding: 2px 0 12px; }
+    .powered a { color: var(--accent); font-weight: 600; text-decoration: none; }
+    .powered a:hover { text-decoration: underline; }
   `;
 
   const ICONS = { summarize: "≡", keypoints: "📌", term: "🔎", translate: "🌐" };
@@ -498,10 +497,9 @@
     panel.setAttribute("role", "dialog");
     panel.setAttribute("aria-label", T("dialogLabel"));
     panel.innerHTML = `
-      <div class="header">
+      <div class="header" title="${T("headerHint")}">
         <div class="logo"></div>
-        <div class="title">Sovereign AI</div>
-        <div class="badge">unofficial</div>
+        <div class="title">Sovereign AI Panel</div>
         <button class="hbtn expand" title="${T("aExpand")}" aria-label="${T("aExpand")}">⤢</button>
         <button class="hbtn reset" title="${T("aReset")}" aria-label="${T("aReset")}">↺</button>
         <button class="hbtn close" title="${T("aClose")}" aria-label="${T("aClose")}">✕</button>
@@ -524,6 +522,7 @@
           <button class="send" title="${T("aSend")}" aria-label="${T("aSend")}">➤</button>
         </div>
         <div class="disclaimer">${T("disclaimer")}</div>
+        <div class="powered">${T("poweredBy")} <a href="https://www.infomaniak.com/en/hosting/ai-services" target="_blank" rel="noopener noreferrer">Infomaniak AI Services</a></div>
       </div>
     `;
     shadow.appendChild(panel);
@@ -613,15 +612,15 @@
         if (suppressSave) return;
         const r = panel.getBoundingClientRect();
         browser.storage.local.set({
-          panelBox: { left: r.left, top: r.top, width: r.width, height: r.height }
+          panelPos: { left: r.left, top: r.top, width: r.width, height: r.height }
         });
       }, 400);
     };
 
-    // Clé "panelBox" (l'ancienne "panelRect" est ignorée : auto-réparation
-    // des positions agrandies mémorisées par erreur avant le correctif).
-    browser.storage.local.get("panelBox").then((v) => {
-      applyRect(panel, v.panelBox);
+    // Clé "panelPos" (les anciennes "panelRect"/"panelBox" sont ignorées :
+    // réinitialise toute position mémorisée avant ce correctif).
+    browser.storage.local.get("panelPos").then((v) => {
+      applyRect(panel, v.panelPos);
       new ResizeObserver(() => {
         if (skipNextObservation) { skipNextObservation = false; return; }
         saveArmed = true; // un resize après restauration = geste utilisateur
@@ -630,6 +629,16 @@
     });
 
     const header = panel.querySelector(".header");
+    // Double-clic sur l'en-tête : réinitialise la position/taille par défaut
+    // (bas-droite), en effaçant la géométrie mémorisée.
+    header.addEventListener("dblclick", (e) => {
+      if (e.target.closest(".hbtn")) return;
+      rectBeforeExpand = null;
+      suppressSave = true;
+      Object.assign(panel.style, { left: "", top: "", right: "", bottom: "", width: "", height: "" });
+      browser.storage.local.remove("panelPos");
+      setTimeout(() => { suppressSave = false; }, 700);
+    });
     header.addEventListener("mousedown", (e) => {
       if (e.target.closest(".hbtn")) return;
       e.preventDefault();
