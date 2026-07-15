@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Sovereign AI Panel",
-  "version": "1.3.0",
+  "version": "1.5.3",
   "description": "Summarize, extract key points, look up a term and translate any web page via Infomaniak's AI API — data stays in Europe. Not affiliated with Infomaniak.",
   "browser_specific_settings": {
     "gecko": {

@@ -106,6 +106,7 @@ var EURIA_STRINGS = {
     actTerm: "Rechercher un terme",
     // Messages transitoires
     retrying: "Serveur occupé (HTTP %s), nouvelle tentative %a/2…",
+    errTimeout: "Délai dépassé : aucune réponse du serveur. Réessayez.",
     errDisconnect: "Connexion au processus d'arrière-plan perdue (extension rechargée ?). Réessayez.",
     // Préférences
     optTitle: "Sovereign AI Panel — Préférences",
@@ -171,6 +172,7 @@ var EURIA_STRINGS = {
     actTranslate: "Translate",
     actTerm: "Look up a term",
     retrying: "Server busy (HTTP %s), retrying %a/2…",
+    errTimeout: "Timed out: no response from the server. Please retry.",
     errDisconnect: "Lost connection to the background process (extension reloaded?). Please retry.",
     optTitle: "Sovereign AI Panel — Preferences",
     optProductId: "AI Services product ID",

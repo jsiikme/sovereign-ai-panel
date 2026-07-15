@@ -115,6 +115,23 @@ browser.commands.onCommand.addListener(async (command) => {
 const RETRYABLE_STATUS = new Set([429, 500, 502, 503, 504]);
 const MAX_RETRIES = 2;
 const REASONING_FLUSH_MS = 150;
+const IDLE_TIMEOUT_MS = 60000; // abandon si aucun octet reçu pendant 60 s
+
+/* Délai avant nouvelle tentative : respecte l'en-tête Retry-After (secondes ou
+ * date HTTP) quand le serveur le fournit, sinon le backoff par défaut. Borné. */
+function retryDelay(response, fallbackMs) {
+  const h = response.headers.get("Retry-After");
+  if (!h) return fallbackMs;
+  let ms;
+  const secs = Number(h);
+  if (Number.isFinite(secs)) {
+    ms = secs * 1000;
+  } else {
+    const t = Date.parse(h);
+    ms = Number.isNaN(t) ? fallbackMs : t - Date.now();
+  }
+  return Math.min(Math.max(ms, 500), 30000);
+}
 
 /* L'API Infomaniak n'envoie pas d'en-têtes CORS : le fetch ne fonctionne que
  * si la permission hôte est accordée (facultative pour l'utilisateur en MV3). */
@@ -152,6 +169,15 @@ browser.runtime.onConnect.addListener((port) => {
     aborter = new AbortController();
     const signal = aborter.signal;
 
+    // Timeout d'inactivité : si aucun octet n'arrive pendant IDLE_TIMEOUT_MS
+    // (connexion figée, serveur muet), on avorte au lieu de tourner sans fin.
+    let timedOut = false;
+    let idleTimer = null;
+    const resetIdle = () => {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => { timedOut = true; aborter?.abort(); }, IDLE_TIMEOUT_MS);
+    };
+
     try {
       const settings = await getSettings();
       const problem = await checkPrerequisites(settings);
@@ -165,6 +191,11 @@ browser.runtime.onConnect.addListener((port) => {
         messages: msg.messages,
         stream: true
       };
+      // Cache de prompt (API Infomaniak) : clé stable par page pour maximiser la
+      // réutilisation du préfixe (système + contenu de page) d'un tour à l'autre.
+      if (msg.cacheKey) body.prompt_cache_key = msg.cacheKey;
+      // Plafond de tokens de sortie (ex. « points clés » : réponse courte et bornée).
+      if (msg.maxTokens > 0) body.max_completion_tokens = msg.maxTokens;
       // Actions simples (résumé, traduction…) : on coupe la phase de
       // « réflexion » de Qwen3.5 — latence et tokens facturés divisés.
       if (msg.thinking === false) {
@@ -172,6 +203,7 @@ browser.runtime.onConnect.addListener((port) => {
       }
 
       let response = null;
+      resetIdle();
       for (let attempt = 0; ; attempt++) {
         response = await fetch(EURIA_API_URL(settings.productId), {
           method: "POST",
@@ -184,7 +216,7 @@ browser.runtime.onConnect.addListener((port) => {
         });
         if (response.ok || !RETRYABLE_STATUS.has(response.status) || attempt >= MAX_RETRIES) break;
         port.postMessage({ type: "retrying", attempt: attempt + 1, status: response.status });
-        await new Promise((r) => setTimeout(r, (attempt + 1) * 1500));
+        await new Promise((r) => setTimeout(r, retryDelay(response, (attempt + 1) * 1500)));
       }
 
       if (!response.ok) {
@@ -240,6 +272,7 @@ browser.runtime.onConnect.addListener((port) => {
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
+        resetIdle();
         buffer += decoder.decode(value, { stream: true });
         const lines = buffer.split("\n");
         buffer = lines.pop();
@@ -253,11 +286,13 @@ browser.runtime.onConnect.addListener((port) => {
       port.postMessage({ type: "done" });
     } catch (e) {
       if (e.name === "AbortError") {
-        port.postMessage({ type: "done", stopped: true });
+        if (timedOut) port.postMessage({ type: "error", error: EURIA_T("errTimeout"), retryable: true });
+        else port.postMessage({ type: "done", stopped: true });
       } else {
         port.postMessage({ type: "error", error: String(e), retryable: true });
       }
     } finally {
+      clearTimeout(idleTimer);
       if (aborter?.signal === signal) aborter = null;
     }
   });
