@@ -7,6 +7,17 @@ versionnage [SemVer](https://semver.org/lang/fr/).
 La page GitHub *Releases* ne présente que la **dernière** version (installeurs `.zip`
 Firefox + Brave) ; ce fichier conserve l'historique complet.
 
+## [1.6.1] — 2026-07-16
+
+### Corrigé
+- **Récupération du `product_id`** : la réponse de `GET /1/ai` expose le champ
+  **`product_id`** (dans le tableau `data`), et non `id`. README et aide du champ
+  dans les préférences corrigés, avec un lien vers la documentation de l'endpoint.
+
+### Modifié
+- **README allégé** : recentré sur l'essentiel (installation, prérequis d'accès,
+  configuration, confidentialité).
+
 ## [1.6.0] — 2026-07-16
 
 ### Ajouté
@@ -14,7 +25,7 @@ Firefox + Brave) ; ce fichier conserve l'historique complet.
   crédits gratuits**, sans engagement pendant un mois, carte de crédit requise),
   **créer un jeton API** (Manager → gestion des tokens) et **récupérer le
   `product_id`** (`curl -H "Authorization: Bearer …" https://api.infomaniak.com/1/ai`,
-  champ `id`).
+  champ `product_id`).
 - **Liens d'accès dans la page de préférences** (localisés FR/EN) : « Commander
   AI Services » et « Créer un jeton API » — affichés là où l'on saisit ces valeurs,
   donc dès le premier lancement.
