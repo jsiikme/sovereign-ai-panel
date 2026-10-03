@@ -64,7 +64,7 @@ var EURIA_STRINGS = {
     // Erreurs (arrière-plan)
     errNoToken: "Aucun jeton API configuré. La page de préférences vient de s'ouvrir : collez-y votre jeton Infomaniak AI Tools.",
     errNoProductId: "Configurez l'identifiant de votre produit AI Services dans les préférences.",
-    errNoPermission: "Permission manquante pour api.infomaniak.com. Ouvrez about:addons → Sovereign AI Panel → Permissions et autorisez l'accès à api.infomaniak.com.",
+    errNoPermission: "Permission manquante pour api.infomaniak.com. Dans les détails de l'extension (about:addons sur Firefox, chrome://extensions sur Chrome/Brave), ouvrez Permissions et autorisez l'accès à api.infomaniak.com.",
     // Panneau
     hello: "Bonjour,",
     help: "Comment puis-je vous aider ?",
@@ -137,7 +137,7 @@ var EURIA_STRINGS = {
     actionTitle: "Sovereign AI — AI assistant",
     errNoToken: "No API token configured. The preferences page just opened: paste your Infomaniak AI Tools token there.",
     errNoProductId: "Configure your AI Services product ID in the preferences.",
-    errNoPermission: "Missing permission for api.infomaniak.com. Open about:addons → Sovereign AI Panel → Permissions and allow access to api.infomaniak.com.",
+    errNoPermission: "Missing permission for api.infomaniak.com. In the extension's details (about:addons on Firefox, chrome://extensions on Chrome/Brave), open Permissions and allow access to api.infomaniak.com.",
     hello: "Hello,",
     help: "How can I help you?",
     suggSummarize: "Summarize",

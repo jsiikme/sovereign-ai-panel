@@ -7,6 +7,23 @@ versionnage [SemVer](https://semver.org/lang/fr/).
 La page GitHub *Releases* ne présente que la **dernière** version (installeurs `.zip`
 Firefox + Brave) ; ce fichier conserve l'historique complet.
 
+## [1.6.2] — 2026-10-03
+
+### Corrigé
+- **Manifest hybride unique** : `manifest.json` déclare à la fois
+  `background.service_worker` (utilisé par Chromium/Brave) et
+  `background.scripts` (utilisé par Firefox), avec icônes **PNG** pour les deux
+  (les SVG ne s'affichent pas dans Chromium). Charger la racine du projet ou
+  `dist/firefox` dans Chrome/Brave faisait échouer le service worker
+  (clic sans effet) et donnait une icône vide ; `manifest.chromium.json` est
+  supprimé et `build.sh` produit deux paquets identiques à partir d'un seul
+  manifest. Vérifié en bout en bout (chargement, service worker, clic →
+  injection du panneau) dans Brave headless.
+- **« Réessayer »** : garde-fou anti-flux concurrent dans `startStream` (un
+  clic sur Réessayer pendant une réponse en cours corrompait l'état du flux).
+- Message d'erreur de permission rendu valable pour les deux navigateurs
+  (`about:addons` sur Firefox, `chrome://extensions` sur Chrome/Brave).
+
 ## [1.6.1] — 2026-07-16
 
 ### Corrigé

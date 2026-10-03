@@ -999,6 +999,12 @@
   }
 
   function startStream(request) {
+    // Garde-fou : un seul flux à la fois (le bouton « Réessayer » appelle
+    // startStream sans passer par la vérification de sendChat).
+    if (activeStream) {
+      flashBusy();
+      return;
+    }
     const { msgEl, bubble, answerEl } = addAssistantBubble();
 
     let answer = "";

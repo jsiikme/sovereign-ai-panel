@@ -1,21 +1,19 @@
 #!/bin/sh
-# Construit les deux variantes de l'extension dans dist/ :
-#   dist/firefox — Manifest V3 Firefox (event page, icône SVG)
-#   dist/brave   — Manifest V3 Chromium/Brave (service worker, icônes PNG)
+# Construit les paquets dans dist/ (contenu identique, un seul manifest hybride) :
+#   dist/firefox — à charger dans Firefox (about:debugging → manifest.json)
+#   dist/brave   — à charger dans Brave/Chromium (chrome://extensions)
+# Le manifest est hybride : Chromium utilise background.service_worker, Firefox
+# background.scripts ; icônes PNG dans les deux (SVG non supporté par Chromium).
 set -e
 cd "$(dirname "$0")"
 
 rm -rf dist
-SHARED="defaults.js background.js content.js options.html options.js"
+SHARED="defaults.js background.js content.js options.html options.js manifest.json"
 
 mkdir -p dist/firefox/icons dist/brave/icons
 cp $SHARED dist/firefox/
 cp $SHARED dist/brave/
-
-cp manifest.json dist/firefox/manifest.json
-cp icons/icon.svg dist/firefox/icons/
-
-cp manifest.chromium.json dist/brave/manifest.json
+cp icons/icon-48.png icons/icon-128.png dist/firefox/icons/
 cp icons/icon-48.png icons/icon-128.png dist/brave/icons/
 
 echo "OK :"
