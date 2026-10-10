@@ -1,21 +1,11 @@
 # Sovereign AI Panel
 
-![Sovereign AI Panel — assistant IA dans le navigateur, propulsé par Infomaniak AI Services](docs/social-preview.png?v=2)
-
 Extension non officielle, non affiliée à Infomaniak. « **[Euria](https://euria.infomaniak.com/)** » est le nom de [l'assistant IA d'Infomaniak](https://news.infomaniak.com/euria-assistant-ia-souverain/).
 Cette extension reproduit son expérience sur n'importe quelle page web via votre propre accès à [l'API Infomaniak AI Services](https://www.infomaniak.com/fr/hebergement/ai-services).
 
 Fonctionnalités : **Résumer**, **Extraire les points clés**, **Rechercher un terme**, **Traduire**, questions libres avec suivi de conversation — réponses en streaming. Compatible **Firefox** (≥ 127) et **Brave / Chromium** (≥ 116).
 
-![Le panneau Sovereign AI ouvert sur une page web](docs/screenshot-panel.png?v=4)
-
-| Résumé | Points clés |
-|:---:|:---:|
-| ![Un résumé de page généré en streaming](docs/screenshot-summary.png?v=4) | ![Extraction des points clés](docs/screenshot-keypoints.png?v=4) |
-| **Traduction** | **Rechercher un terme** |
-| ![Traduction de la page en anglais](docs/screenshot-translate.png?v=4) | ![Explication d'un terme en contexte](docs/screenshot-term.png?v=4) |
-
-> Captures d'illustration ; la page servant de décor et le nom « Euria » appartiennent à Infomaniak.
+![Sovereign AI Panel — assistant IA dans le navigateur, propulsé par Infomaniak AI Services](docs/social-preview.png?v=2)
 
 ## Installation
 
